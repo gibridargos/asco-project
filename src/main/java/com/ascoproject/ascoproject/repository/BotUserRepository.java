@@ -17,6 +17,12 @@ public interface BotUserRepository extends JpaRepository<UserEntity,Long> {
     @Transactional
     @Query(value = "DELETE FROM user_tax_info WHERE tax_info_id = :id", nativeQuery = true)
     void deleteTaxInfoLinks(@Param("id") Long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM user_tax_info", nativeQuery = true)
+    void deleteAllUserTaxInfo();
+
     UserEntity findByChatId(Long chatId);
 
     UserEntity getUserEntityById(Long id);

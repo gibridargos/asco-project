@@ -122,7 +122,7 @@ public class UserService {
     }
 
     public synchronized void deleteAllTaxInfo() {
-        botUserRepository.deleteAll();
+        botUserRepository.deleteAllUserTaxInfo();
     }
 
     public synchronized ResponseAll<ResponseResult<String>> updateUserActivity(Long chatId, boolean isActive) {

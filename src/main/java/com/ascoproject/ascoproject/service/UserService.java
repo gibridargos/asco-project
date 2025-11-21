@@ -122,7 +122,7 @@ public class UserService {
     }
 
     public synchronized void deleteAllTaxInfo() {
-        botUserRepository.deleteAll();
+        botUserRepository.deleteAllUserTaxInfo();
     }
 
     public synchronized ResponseAll<ResponseResult<String>> updateUserActivity(Long chatId, boolean isActive) {
@@ -136,7 +136,50 @@ public class UserService {
                 .status(200)
                 .build();
     }
+    @Transactional(readOnly = true)
+    public ResponseAll<ResponseResult<Page<GroupModel>>> getGroups(Pageable pageable) {
+        if (!pageable.getSort().isSorted()) {
+            pageable = PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by("id").ascending()
+            );
+        }
 
+        // JPA query darajasida faqat guruhlarni olish
+        Page<UserEntity> botUsers = botUserRepository.findAllByChatIdLessThan(0L, pageable);
+
+
+        List<GroupModel> groupModels = botUsers.getContent().stream()
+                .map(userEntity -> {
+                    TelegramChat chatInfo = telegramService.getChatInfo(userEntity.getChatId());
+                    return GroupModel.builder()
+                            .id(userEntity.getId())
+                            .groupId(userEntity.getChatId())
+                            .groupName(chatInfo != null ? chatInfo.getTitle() : null)
+                            .groupType(chatInfo != null ? chatInfo.getType() : null)
+                            .link(chatInfo != null ? chatInfo.getInviteLink() : null)
+                            .isActive(userEntity.getIsActive())
+                            .lang(userEntity.getLang())
+                            .threeDaysAgo(userEntity.getThreeDaysAgo())
+                            .twoDaysAgo(userEntity.getTwoDaysAgo())
+                            .theDayBefore(userEntity.getTheDayBefore())
+                            .countTaxInfo(getUserTaxes(userEntity.getChatId()).size()) // optimallashtirish mumkin
+                            .build();
+                })
+                .toList();
+
+        ResponseResult<Page<GroupModel>> responseResult = new ResponseResult<>();
+        responseResult.setResult(new PageImpl<>(groupModels, pageable, botUsers.getTotalElements()));
+
+        ResponseAll<ResponseResult<Page<GroupModel>>> responseAll = new ResponseAll<>();
+        responseAll.setResponse(responseResult);
+        responseAll.setStatus(200);
+
+        return responseAll;
+    }
+
+/*
     @Transactional(readOnly = true)
     public synchronized ResponseAll<ResponseResult<Page<GroupModel>>> getGroups(Pageable pageable) {
         if (!pageable.getSort().isSorted()) {
@@ -175,6 +218,7 @@ public class UserService {
         responseAll.setStatus(200);
         return responseAll;
     }
+*/
 
     /*
         @Transactional(readOnly = true)

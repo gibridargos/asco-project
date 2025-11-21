@@ -1,12 +1,12 @@
 telegram:
   bot:
-    token: ${BOT_TOKEN}
+    token: 7163511047:AAFtyJ5r6V6OX3iDsKOnXgHlZRTK5eglaSg
     admin: 5540407547
 spring:
   datasource:
-    url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
-    username: ${PGUSER}
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://centerbeam.proxy.rlwy.net:36572/railway
+    username: postgres
+    password: uHmsAktkqMTKdEniBZkPlfXRslgUxFWx
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -23,5 +23,6 @@ spring:
     multipart:
       max-request-size: 10MB
       max-file-size: 10MB
+
 server:
   port: 8085

@@ -4,9 +4,11 @@ import com.ascoproject.ascoproject.entity.InfoEntity;
 import com.ascoproject.ascoproject.model.group.GroupAddTaxRequest;
 import com.ascoproject.ascoproject.model.group.GroupModel;
 import com.ascoproject.ascoproject.model.group.GroupUpdateRequest;
+import com.ascoproject.ascoproject.model.infoentity.InfoEntityModel;
 import com.ascoproject.ascoproject.model.infoentity.InfoEntityUpdateModel;
 import com.ascoproject.ascoproject.model.responce.ResponseAll;
 import com.ascoproject.ascoproject.model.responce.ResponseResult;
+import com.ascoproject.ascoproject.model.taxinfo.TaxInfoModel;
 import com.ascoproject.ascoproject.model.taxinfo.TaxInfoResponse;
 import com.ascoproject.ascoproject.model.taxinfo.TaxInfoUpdateModel;
 import com.ascoproject.ascoproject.model.user.UserModel;
@@ -60,6 +62,17 @@ public class BotController {
         var result = "ru".equalsIgnoreCase(lang)
                 ? infoEntityService.findAllRu(pageable)
                 : infoEntityService.findAll(pageable);
+        return ResponseEntity.status(result.getStatus()).body(result.getResponse());
+    }
+    @GetMapping("/tax-report/{id}")
+    public ResponseEntity<ResponseResult<TaxInfoUpdateModel>> getTaxReportById(@PathVariable Long id) {
+        ResponseAll<ResponseResult<TaxInfoUpdateModel>> result = taxInfoService.getTaxInfoUpdateModelById(id);
+        return ResponseEntity.status(result.getStatus()).body(result.getResponse());
+    }
+
+    @GetMapping("/info-entity/{id}")
+    public ResponseEntity<ResponseResult<InfoEntityUpdateModel>> getInfoEntityById(@PathVariable Long id) {
+        ResponseAll<ResponseResult<InfoEntityUpdateModel>> result = infoEntityService.getInfoEntityUpdateModelById(id);
         return ResponseEntity.status(result.getStatus()).body(result.getResponse());
     }
 

@@ -2,6 +2,7 @@ package com.ascoproject.ascoproject.service;
 
 import com.ascoproject.ascoproject.entity.InfoEntity;
 import com.ascoproject.ascoproject.model.infoentity.InfoEntityModel;
+import com.ascoproject.ascoproject.model.infoentity.InfoEntityUpdateModel;
 import com.ascoproject.ascoproject.model.responce.ResponseAll;
 import com.ascoproject.ascoproject.model.responce.ResponseResult;
 import com.ascoproject.ascoproject.repository.InfoEntityRepository;
@@ -108,6 +109,40 @@ public class InfoEntityService {
         ResponseResult<String> result = new ResponseResult<>();
         result.setResult("info_entity successfully added");
         return ResponseAll.<ResponseResult<String>>builder()
+                .response(result)
+                .status(200)
+                .build();
+    }
+
+    public InfoEntityModel getInfoEntityByIdRu(Long id) {
+        InfoEntity info = infoEntityRepository.findById(id).orElse(null);
+        assert info != null;
+        return InfoEntityModel.builder()
+                .id(id)
+                .typeOfTax(translateService.translate(info.getTypeOfTax()))
+                .fullInfo(translateService.translate(info.getFullInfo()))
+                .build();
+    }
+
+    public InfoEntityModel getInfoEntityById(Long id) {
+        InfoEntity info = infoEntityRepository.findById(id).orElse(null);
+        assert info != null;
+        return InfoEntityModel.builder()
+                .id(id)
+                .typeOfTax(info.getTypeOfTax())
+                .fullInfo(info.getFullInfo())
+                .build();
+    }
+
+    public ResponseAll<ResponseResult<InfoEntityUpdateModel>> getInfoEntityUpdateModelById(Long id) {
+        ResponseResult<InfoEntityUpdateModel> result = ResponseResult.<InfoEntityUpdateModel>builder()
+                .result(InfoEntityUpdateModel.builder()
+                        .uz(getInfoEntityById(id))
+                        .ru(getInfoEntityByIdRu(id))
+                        .build())
+                .build();
+
+        return ResponseAll.<ResponseResult<InfoEntityUpdateModel>>builder()
                 .response(result)
                 .status(200)
                 .build();

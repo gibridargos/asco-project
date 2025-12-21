@@ -1,7 +1,7 @@
 telegram:
   bot:
     token: 7163511047:AAFtyJ5r6V6OX3iDsKOnXgHlZRTK5eglaSg
-    admin: 5540407547
+    admin: 6997326968
 spring:
   datasource:
     url: jdbc:postgresql://maglev.proxy.rlwy.net:53123/railway

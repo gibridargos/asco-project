@@ -5,7 +5,7 @@ telegram:
 
 spring:
   datasource:
-    url: jdbc:postgresql://junction.proxy.rlwy.net:11316/railway?sslmode=require
+    url: jdbc:postgresql://junction.proxy.rlwy.net:11316/railway?sslmode=require&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
     username: postgres
     password: tMaaqhhFCEtLHevBGlxoVenTMxKkfuZg
     driver-class-name: org.postgresql.Driver

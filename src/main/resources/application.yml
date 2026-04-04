@@ -2,12 +2,14 @@ telegram:
   bot:
     token: 7163511047:AAFtyJ5r6V6OX3iDsKOnXgHlZRTK5eglaSg
     admin: 6997326968
+
 spring:
   datasource:
-    url: jdbc:postgresql://junction.proxy.rlwy.net:11316/railway
+    url: jdbc:postgresql://junction.proxy.rlwy.net:11316/railway?sslmode=require
     username: postgres
     password: tMaaqhhFCEtLHevBGlxoVenTMxKkfuZg
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,6 +21,7 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
+
   servlet:
     multipart:
       max-request-size: 10MB

@@ -28,4 +28,4 @@ spring:
       max-file-size: 10MB
 
 server:
-  port: 8085
+  port: 8080

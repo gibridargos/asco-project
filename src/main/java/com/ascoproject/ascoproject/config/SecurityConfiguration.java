@@ -33,6 +33,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/send").permitAll()
                         .requestMatchers("/api/v1/bot/import-tax-info-csv").permitAll()
+                        .requestMatchers("/api/v1/bot/import-info-entity-csv").permitAll()              
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
